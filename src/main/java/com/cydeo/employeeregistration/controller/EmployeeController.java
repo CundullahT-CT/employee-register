@@ -16,7 +16,7 @@ import javax.validation.Valid;
 @RequestMapping("/employee")
 public class EmployeeController {
 
-    @GetMapping("/create")
+    @GetMapping("/register")
     public String employeeCreate(Model model) {
 
         model.addAttribute("employee", new Employee());
@@ -27,16 +27,16 @@ public class EmployeeController {
     }
 
     @PostMapping("/list")
-    public String employeeList(@Valid @ModelAttribute("employee") Employee employee, Model model, BindingResult bindingResult) {
+    public String employeeList(@Valid @ModelAttribute("employee") Employee employee, BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("stateList", DataGenerator.getStateList());
             return "employee/employee-create";
         }
-//
-//        DataGenerator.save(employee);
-//
-//        model.addAttribute("employeeList", DataGenerator.readAll());
+
+        DataGenerator.save(employee);
+
+        model.addAttribute("employeeList", DataGenerator.readAll());
 
         return "employee/employee-list";
     }
